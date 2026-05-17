@@ -1,0 +1,168 @@
+<!-- <div class="cart-container">
+
+    <h1 class="cart-title">Shopping Cart</h1>
+
+    <div *ngIf="cartItems.length>0; else emptyCart">
+        <div class="cart-card" *ngFor="let item of cartItems">
+
+            <img [src]="item.processedImg" alt="cake">
+
+            <div class="details">
+
+                <h2>{{item.productEntity.productName}}</h2>
+
+                <p>Price: LKR {{item.productEntity.price}}</p>
+
+                <div class="quantity-controls">
+                    <button mat-icon-button color="warn" (click)="decreaseQuantity(item)"
+                        [disabled]="item.quantity == 1">
+
+                        <mat-icon>remove_circle_outline</mat-icon>
+
+                    </button>
+
+                    <span class="qty-text">{{item.quantity}}</span>
+
+                    <button mat-icon-button color="primary" (click)="increaseQuantity(item)">
+
+                        <mat-icon>add_circle_outline</mat-icon>
+
+                    </button>
+                </div>
+
+                <button mat-icon-button class="delete-button" color="warn" (click)="deleteItem(item.cartId)" matTooltip="delete">
+                    <mat-icon>delete_outline</mat-icon>
+                </button>
+
+            </div>
+        </div>
+        <div class="total-price">
+            Total Amount: LKR {{totalAmount}}
+        </div>
+        <div>
+            <button mat-raised-button color="primary">Place Order</button>
+        </div>
+    </div>
+
+    <ng-template #emptyCart>
+        <div class="empty-cart">
+            <mat-icon class="icon">remove_shopping_cart</mat-icon>
+            <span>Cart is Empty</span>
+        </div>
+    </ng-template>
+
+
+</div> -->
+
+
+
+
+
+
+
+
+
+<div class="cart-container">
+
+    <h1 class="cart-title">Shopping Cart</h1>
+
+    <div *ngIf="cartItems.length > 0; else emptyCart">
+
+        <div class="cart-card" *ngFor="let item of cartItems">
+
+            <div class="image-section">
+                <img [src]="item.processedImg" alt="cake">
+            </div>
+
+            <div class="details-section">
+
+                <div class="top-section">
+
+                    <div>
+                        <h2>{{item.productEntity.productName}}</h2>
+
+                        <p class="price">
+                            LKR {{item.productEntity.price}}
+                        </p>
+                    </div>
+
+                    <button mat-icon-button color="warn" class="delete-btn" (click)="deleteItem(item.cartId)"
+                        matTooltip="Remove item">
+
+                        <mat-icon>delete_outline</mat-icon>
+
+                    </button>
+
+                </div>
+
+                <div class="bottom-section">
+
+                    <div class="quantity-controls">
+
+                        <button mat-icon-button color="warn" (click)="decreaseQuantity(item)"
+                            [disabled]="item.quantity == 1">
+
+                            <mat-icon>
+                                remove_circle_outline
+                            </mat-icon>
+
+                        </button>
+
+                        <span class="qty-text">
+                            {{item.quantity}}
+                        </span>
+
+                        <button mat-icon-button color="primary" (click)="increaseQuantity(item)">
+
+                            <mat-icon>
+                                add_circle_outline
+                            </mat-icon>
+
+                        </button>
+
+                    </div>
+
+                    <div class="item-total">LKR{{item.productEntity.price * item.quantity}}</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="summary-card">
+
+            <div class="summary-row">
+                <span>Total Amount</span>
+                <span class="amount">
+                    LKR {{totalAmount}}
+                </span>
+            </div>
+
+            <button mat-raised-button color="primary" class="checkout-btn">
+
+                Place Order
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <ng-template #emptyCart>
+
+        <div class="empty-cart">
+
+            <mat-icon class="empty-icon">
+                remove_shopping_cart
+            </mat-icon>
+
+            <h2>Your Cart is Empty</h2>
+
+            <p>Add delicious cakes to continue shopping.</p>
+
+        </div>
+
+    </ng-template>
+
+</div>

@@ -1,0 +1,69 @@
+<div class="login-container">
+    <!-- LEFT SIDE -->
+    <div class="login-left">
+        <div class="overlay">
+            <h1>Welcome Back!</h1>
+            <p>
+                Discover delicious cakes made with love and customize your perfect cake experience.
+            </p>
+        </div>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="login-right">
+        <div class="login-card">
+            <div class="logo-section">
+                <img src="assets/images/CakeLa_logo.jpg" alt="logo">
+                <h2>Cake_La</h2>
+            </div>
+            <h1 class="title">Login</h1>
+            <p class="subtitle">Login to continue your sweet journey</p>
+
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Email</mat-label>
+                    <input matInput type="email" formControlName="email">
+
+                    <mat-icon matSuffix>email</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Password</mat-label>
+
+                    <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
+
+                    <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword">
+
+                        <mat-icon>
+                            {{ hidePassword ? 'visibility_off' : 'visibility' }}
+                        </mat-icon>
+
+                    </button>
+                </mat-form-field>
+
+                <div class="forgot-password">
+                    <a href="#">Forgot Password?</a>
+                </div>
+
+                <button mat-raised-button color="primary" class="login-btn" type="submit">
+                    Login
+                </button>
+            </form>
+
+            <div class="divider">
+                <span>OR</span>
+            </div>
+
+            <button mat-stroked-button class="google-btn">
+                <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" alt="google">
+                Continue with Google
+            </button>
+
+            <div class="signup-link">
+                Don’t have an account?
+                <a routerLink="/signup">Create Account</a>
+            </div>
+        </div>
+    </div>
+
+</div>

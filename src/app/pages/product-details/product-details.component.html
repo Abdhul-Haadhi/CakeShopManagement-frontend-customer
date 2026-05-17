@@ -1,0 +1,37 @@
+<div class="details-container" *ngIf="product">
+    <div class="image-section">
+        <img [src]="product.processedImage" alt="Cake">
+    </div>
+
+    <div class="info-section">
+        <h1>{{product.productName}}</h1>
+
+        <h2 class="price">
+            LKR {{product.price}}
+        </h2>
+
+        <p class="category">
+            Category: <span>{{product.categoryName}}</span>
+        </p>
+
+        <p class="description">
+            {{product.description}}
+        </p>
+
+        <div class="size-box">
+            <span class="label">Size:</span>
+            <span>{{product.size}} kg</span>
+        </div>
+
+        <div class="quantity-section">
+            <button mat-icon-button (click)="decreaseQty()"><mat-icon>remove_circle_outline</mat-icon></button>
+            <span>{{quantity}}</span>
+            <button mat-icon-button (click)="increaseQty()"><mat-icon>add_circle_outline</mat-icon></button>
+        </div>
+        <div class="button-group">
+            <button mat-raised-button color="primary" (click)="addToCart()">Add to Cart</button>
+            <button mat-raised-button color="accent">Buy Now</button>
+            <button mat-raised-button color="warn">Customize Cake</button>
+        </div>
+    </div>
+</div>
