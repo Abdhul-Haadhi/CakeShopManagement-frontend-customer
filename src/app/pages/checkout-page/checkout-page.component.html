@@ -1,0 +1,77 @@
+<div class="checkout-container">
+    <div class="checkout-left">
+        <h1>Checkout</h1>
+        <form [formGroup]="checkoutForm">
+            <mat-form-field appearance="outline">
+                <mat-label>Full Name</mat-label>
+                <input matInput formControlName="customerName">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Phone Number</mat-label>
+                <input matInput formControlName="phone">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Address</mat-label>
+                <textarea matInput rows="3" formControlName="address">
+                </textarea>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>City</mat-label>
+                <input matInput formControlName="city">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Delivery Date</mat-label>
+                <input matInput type="date" formControlName="deliveryDate">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Order Notes</mat-label>
+                <textarea matInput rows="3" formControlName="notes">
+                </textarea>
+            </mat-form-field>
+
+            <div class="payment-section">
+                <h3>Payment Method</h3>
+                <mat-radio-group formControlName="paymentMethod">
+
+                    <mat-radio-button value="COD">
+                        Cash on Delivery
+                    </mat-radio-button>
+
+                    <mat-radio-button value="CARD">
+                        Card Payment
+                    </mat-radio-button>
+
+                </mat-radio-group>
+            </div>
+        </form>
+    </div>
+
+    <div class="checkout-right">
+        <h2>Order Summary</h2>
+        <div class="summary-card" *ngFor="let item of cartItems">
+            <img [src]="item.processedImg" alt="cake">
+            <div class="summary-info">
+                <h3>{{item.productEntity.productName}}</h3>
+                <p>Qty: {{item.quantity}}</p>
+                <p>LKR {{item.quantity * item.productEntity.price}}</p>
+            </div>
+        </div>
+        <div class="total-box">
+            Total: LKR {{totalAmount}}
+        </div>
+
+        <button mat-raised-button color="primary" class="place-order-btn" (click)="placeOrder()">
+            Place Order
+        </button>
+    </div>
+</div>

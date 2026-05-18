@@ -48,13 +48,17 @@ export class CartService {
 
   }
 
-  getCartItems(){
+  getCartItems() {
     const sessionId = this.getCartId();
 
-    return this.http.get(BASIC_URL+`api/public/cart/${sessionId}`);
+    return this.http.get(BASIC_URL + `api/public/cart/${sessionId}`);
   }
 
-  deleteCartItem(cartId:number){
-    return this.http.delete(BASIC_URL+`api/public/cart/${cartId}`);
+  getCartItemById(cartId: any) {
+    return this.http.get(`${BASIC_URL}api/public/cart/item/${cartId}`);
+  }
+
+  deleteCartItem(cartId: number) {
+    return this.http.delete(BASIC_URL + `api/public/cart/${cartId}`);
   }
 }

@@ -2,7 +2,7 @@ import { CommonModule, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CartService } from '../../servises/cart/cart.service';
 import { ProductDetailsService } from '../../servises/productDetails/product-details.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -10,7 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-product-details',
   standalone: true,
-  imports: [CommonModule, RouterLink, MatButtonModule, MatIconModule,NgIf],
+  imports: [CommonModule, RouterLink, MatButtonModule, MatIconModule, NgIf],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.scss'
 })
@@ -20,6 +20,7 @@ export class ProductDetailsComponent implements OnInit {
   quantity: number = 1;
 
   constructor(private route: ActivatedRoute,
+    private router: Router,
     private productService: ProductDetailsService,
     private cartService: CartService,
     private snackBar: MatSnackBar
@@ -38,8 +39,8 @@ export class ProductDetailsComponent implements OnInit {
     this.productService.getProductById(id).subscribe((response: any) => {
       this.product = response;
 
-      console.log("this is the response:",response);
-      
+      console.log("this is the response:", response);
+
 
       this.product.processedImage = 'data:image/jpeg;base64,' + response.byteImage;
     })
@@ -63,10 +64,44 @@ export class ProductDetailsComponent implements OnInit {
       sessionId: localStorage.getItem('cartId')
     }
 
-    this.cartService.addToCart(data).subscribe(()=>{
-      this.snackBar.open('Item Added to cart','Close',{duration:3000});
+    this.cartService.addToCart(data).subscribe(() => {
+      this.snackBar.open('Item Added to cart', 'Close', { duration: 3000 });
     })
 
+  }
+
+
+  // buyNow() {
+  //   const buyNowItem = {
+  //     productEntity: this.product,
+  //     quantity: this.quantity,
+  //     processedImg: this.product.processedImage
+  //   };
+
+  //   localStorage.setItem(
+  //     'buyNowItem', JSON.stringify(buyNowItem)
+  //   );
+
+  //   this.router.navigate(['/checkout']);
+  // }
+
+
+  buyNow() {
+    const data = {
+
+      productId: this.product.productId,
+      quantity: this.quantity,
+      sessionId: localStorage.getItem('cartId')
+
+    };
+
+    this.cartService.addToCart(data).subscribe({
+      next: (response: any) => {
+        localStorage.setItem('buyNowCartId', response.cartId);
+
+        this.router.navigate(['/checkout']);
+      }
+    })
   }
 
 

@@ -24,13 +24,13 @@
         </div>
 
         <div class="quantity-section">
-            <button mat-icon-button (click)="decreaseQty()"><mat-icon>remove_circle_outline</mat-icon></button>
+            <button mat-icon-button color="warn" (click)="decreaseQty()"><mat-icon>remove_circle_outline</mat-icon></button>
             <span>{{quantity}}</span>
-            <button mat-icon-button (click)="increaseQty()"><mat-icon>add_circle_outline</mat-icon></button>
+            <button mat-icon-button color="primary" (click)="increaseQty()"><mat-icon>add_circle_outline</mat-icon></button>
         </div>
         <div class="button-group">
             <button mat-raised-button color="primary" (click)="addToCart()">Add to Cart</button>
-            <button mat-raised-button color="accent">Buy Now</button>
+            <button mat-raised-button color="accent" (click)="buyNow()">Buy Now</button>
             <button mat-raised-button color="warn">Customize Cake</button>
         </div>
     </div>

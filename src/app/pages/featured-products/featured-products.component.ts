@@ -43,6 +43,9 @@ export class FeaturedProductsComponent implements OnInit {
     this.searchProductForm = this.fb.group({
       title: [null]
     });
+
+    localStorage.removeItem('buyNowItem');
+    localStorage.removeItem('checkoutItems');
   }
 
 

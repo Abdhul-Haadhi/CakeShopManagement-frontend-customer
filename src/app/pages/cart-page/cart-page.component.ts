@@ -6,11 +6,14 @@ import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
+import { RouterLink } from '@angular/router';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-cart-page',
   standalone: true,
-  imports: [NgForOf, NgIf, MatIcon, MatButtonModule],
+  imports: [NgForOf, NgIf, MatIcon, MatButtonModule, RouterLink, MatCheckboxModule, FormsModule],
   templateUrl: './cart-page.component.html',
   styleUrl: './cart-page.component.scss'
 })
@@ -31,6 +34,8 @@ export class CartPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCart();
+    localStorage.removeItem('buyNowItem');
+    localStorage.removeItem('checkoutItems');
   }
 
   loadCart() {
@@ -43,6 +48,7 @@ export class CartPageComponent implements OnInit {
       response.forEach((element: any) => {
         element.processedImg = 'data:image/jpeg;base64,' + element.productEntity.image;
 
+        element.selected = true;
         this.cartItems.push(element);
 
         this.calculateTotal();
@@ -53,8 +59,18 @@ export class CartPageComponent implements OnInit {
   calculateTotal() {
     this.totalAmount = 0;
     this.cartItems.forEach(item => {
-      this.totalAmount += item.productEntity.price * item.quantity;
-    })
+      if(item.selected){
+        this.totalAmount += item.productEntity.price * item.quantity;
+      }
+    });
+  }
+
+  goToCheckout(){
+    const selectedItem = this.cartItems.filter(
+      item => item.selected
+    );
+
+    localStorage.setItem('checkoutItems',JSON.stringify(selectedItem));
   }
 
 
