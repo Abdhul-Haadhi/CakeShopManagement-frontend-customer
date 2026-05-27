@@ -126,7 +126,7 @@ export class CheckoutPageComponent implements OnInit {
 
       cartItemIds: this.cartItems.map(item => item.cartId),
 
-      // sessionId: localStorage.getItem('cartId')
+      sessionId: localStorage.getItem('cartId')
     };
 
     console.log("Order Data: ", orderData);
@@ -135,13 +135,21 @@ export class CheckoutPageComponent implements OnInit {
       next: (response: any) => {
         console.log(response);
 
-        this.snackBar.open('Order Placed Successfully!', 'Close', { duration: 3000 });
-
         localStorage.removeItem('buyNowItem');
         localStorage.removeItem('checkoutItems');
         localStorage.removeItem('buyNowCartId');
 
-        this.router.navigate(['/']);
+        this.snackBar.open('Order Placed Successfully!', 'Close', { duration: 3000 });
+
+        setTimeout(()=>{
+          this.router.navigate(['/orders']);
+        },1000);
+
+        // localStorage.removeItem('buyNowItem');
+        // localStorage.removeItem('checkoutItems');
+        // localStorage.removeItem('buyNowCartId');
+
+        
       },
 
       error: (error) => {

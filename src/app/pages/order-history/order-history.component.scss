@@ -1,0 +1,43 @@
+.orders-container{
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+}
+
+h1{
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.order-card{
+    margin-bottom: 20px;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.top-section{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status{
+    background: #e3f2fd;
+    color: #1976d2;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.details{
+    margin-top: 15px;
+}
+
+.ordered-items{
+    margin-bottom: 15px;
+}
+
+.empty{
+    text-align: center;
+    margin-top: 100px;
+}

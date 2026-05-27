@@ -1,0 +1,66 @@
+<div class="orders-container">
+    <h1>My Orders</h1>
+
+    <div *ngIf="orders.length > 0; else noOrders">
+        <mat-card class="order-card" *ngFor="let order of orders">
+            <div class="top-section">
+                <div>
+                    <h2>Order #{{order.orderId}}</h2>
+
+                    <p>
+                        {{order.orderDate | date:'medium'}}
+                    </p>
+                </div>
+                <div class="status">
+                    {{order.status}}
+                </div>
+            </div>
+
+            <div class="details">
+                <p>
+                    <strong>Total:</strong>
+                    LKR {{order.totalAmount}}
+                </p>
+
+                <p>
+                    <strong>Items:</strong>
+                    {{order.quantity}}
+                </p>
+
+                <div class="ordered-items">
+
+                    <h3>Ordered Products</h3>
+
+                    <div class="item-row" *ngFor="let item of order.orderItems">
+
+                        <span>
+                            {{item.product.productName}}
+                        </span>
+
+                        <span>
+                            x {{item.quantity}}
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <p>
+                    <strong>Tracking ID:</strong>
+                    {{order.trackingId}}
+                </p>
+
+                <p>
+                    <strong>Delevery Date:</strong>
+                    {{order.deliveryDate | date:'medium'}}
+                </p>
+            </div>
+        </mat-card>
+    </div>
+
+    <ng-template #noOrders>
+        <div class="empty">
+            <h2>No Orders Yet</h2>
+        </div>
+    </ng-template>
+</div>
