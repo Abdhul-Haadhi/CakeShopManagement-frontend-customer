@@ -19,6 +19,9 @@ export class ProductDetailsComponent implements OnInit {
   product: any;
   quantity: number = 1;
 
+  selectedCustomizations: any[] = [];
+
+
   constructor(private route: ActivatedRoute,
     private router: Router,
     private productService: ProductDetailsService,
@@ -37,6 +40,9 @@ export class ProductDetailsComponent implements OnInit {
 
   getProductById(id: any) {
     this.productService.getProductById(id).subscribe((response: any) => {
+
+      console.log("Customizations:", response.customizations);
+
       this.product = response;
 
       console.log("this is the response:", response);
@@ -56,16 +62,63 @@ export class ProductDetailsComponent implements OnInit {
     }
   }
 
+  toggleCustomization(custom: any, event: any) {
+    if (event.target.checked) {
+      this.selectedCustomizations.push({
+        optionId: custom.optionId,
+        optionName: custom.optionName,
+        value: true,
+        extraPrice: custom.extraPrice
+      });
+    }
+    else {
+      this.selectedCustomizations = this.selectedCustomizations.filter(
+        x => x.optionId != custom.optionId
+      );
+    }
+    console.log(this.selectedCustomizations)
+  }
+
+  updateCustomizationText(custom: any, event: any) {
+    const value = event.target.value;
+
+    const existing = this.selectedCustomizations.find(
+      x => x.optionId === custom.optionId
+    );
+
+    if (existing) {
+      existing.value = value;
+    }
+    else {
+      this.selectedCustomizations.push({
+        optionId: custom.optionId,
+        optionName: custom.optionName,
+        value: value,
+        extraPrice: custom.extraPrice
+      });
+    }
+
+    console.log(this.selectedCustomizations);
+  }
+
   addToCart() {
 
     const data = {
       productId: this.product.productId,
       quantity: this.quantity,
-      sessionId: localStorage.getItem('cartId')
+      sessionId: localStorage.getItem('cartId'),
+      customizations: this.selectedCustomizations
     }
 
-    this.cartService.addToCart(data).subscribe(() => {
-      this.snackBar.open('Item Added to cart', 'Close', { duration: 3000 });
+    this.cartService.addToCart(data).subscribe({
+      next: (response) => {
+        console.log("SUCCESS RESPONSE:", response);
+        this.snackBar.open('Item Added to cart', 'Close', { duration: 3000 });
+      },
+      error: (error) => {
+        console.log("FULL ERROR:", error);
+        console.log("ERROR BODY:", error.error);
+      }
     })
 
   }

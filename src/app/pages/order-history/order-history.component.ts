@@ -27,6 +27,7 @@ export class OrderHistoryComponent implements OnInit {
     const sessionId = localStorage.getItem('cartId');
 
     this.orderService.getOrders(sessionId).subscribe((response:any)=>{
+      console.log("RAW RESPONSE:", response);
       this.orders = response;
 
       console.log("getting orderss:",this.orders);

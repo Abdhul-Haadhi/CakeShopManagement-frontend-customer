@@ -67,7 +67,7 @@ export class CheckoutPageComponent implements OnInit {
 
     if (buyNowCartId) {
       this.cartService.getCartItemById(buyNowCartId).subscribe((response: any) => {
-        response.processedImg = 'data:image/jpeg;base64,' + response.productEntity.image;
+        response.processedImg = 'data:image/jpeg;base64,' + response.byteImage;
 
         this.cartItems = [response];
 
@@ -90,7 +90,7 @@ export class CheckoutPageComponent implements OnInit {
     this.quantity = 0;
 
     this.cartItems.forEach((item: any) => {
-      this.totalAmount += item.quantity * item.productEntity.price;
+      this.totalAmount += item.quantity * item.price;
 
       this.quantity += item.quantity;
     });
@@ -106,7 +106,7 @@ export class CheckoutPageComponent implements OnInit {
       console.log("Order Data: ", this.cartItems);
 
       this.cartItems.forEach((item: any) => {
-        item.processedImg = 'data:image/jpeg;base64,' + item.productEntity.image;
+        item.processedImg = 'data:image/jpeg;base64,' + item.byteImage;
 
         // this.totalAmount += item.quantity * item.productEntity.price;
       });
@@ -141,15 +141,15 @@ export class CheckoutPageComponent implements OnInit {
 
         this.snackBar.open('Order Placed Successfully!', 'Close', { duration: 3000 });
 
-        setTimeout(()=>{
+        setTimeout(() => {
           this.router.navigate(['/orders']);
-        },1000);
+        }, 1000);
 
         // localStorage.removeItem('buyNowItem');
         // localStorage.removeItem('checkoutItems');
         // localStorage.removeItem('buyNowCartId');
 
-        
+
       },
 
       error: (error) => {

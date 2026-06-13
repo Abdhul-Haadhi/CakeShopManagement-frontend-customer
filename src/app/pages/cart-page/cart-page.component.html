@@ -1,67 +1,3 @@
-<!-- <div class="cart-container">
-
-    <h1 class="cart-title">Shopping Cart</h1>
-
-    <div *ngIf="cartItems.length>0; else emptyCart">
-        <div class="cart-card" *ngFor="let item of cartItems">
-
-            <img [src]="item.processedImg" alt="cake">
-
-            <div class="details">
-
-                <h2>{{item.productEntity.productName}}</h2>
-
-                <p>Price: LKR {{item.productEntity.price}}</p>
-
-                <div class="quantity-controls">
-                    <button mat-icon-button color="warn" (click)="decreaseQuantity(item)"
-                        [disabled]="item.quantity == 1">
-
-                        <mat-icon>remove_circle_outline</mat-icon>
-
-                    </button>
-
-                    <span class="qty-text">{{item.quantity}}</span>
-
-                    <button mat-icon-button color="primary" (click)="increaseQuantity(item)">
-
-                        <mat-icon>add_circle_outline</mat-icon>
-
-                    </button>
-                </div>
-
-                <button mat-icon-button class="delete-button" color="warn" (click)="deleteItem(item.cartId)" matTooltip="delete">
-                    <mat-icon>delete_outline</mat-icon>
-                </button>
-
-            </div>
-        </div>
-        <div class="total-price">
-            Total Amount: LKR {{totalAmount}}
-        </div>
-        <div>
-            <button mat-raised-button color="primary">Place Order</button>
-        </div>
-    </div>
-
-    <ng-template #emptyCart>
-        <div class="empty-cart">
-            <mat-icon class="icon">remove_shopping_cart</mat-icon>
-            <span>Cart is Empty</span>
-        </div>
-    </ng-template>
-
-
-</div> -->
-
-
-
-
-
-
-
-
-
 <div class="cart-container">
 
     <h1 class="cart-title">Shopping Cart</h1>
@@ -83,10 +19,37 @@
                         </mat-checkbox>
 
                         <div>
-                            <h2>{{item.productEntity.productName}}</h2>
+                            <h2>{{item.productName}}</h2>
+
+                            <div class="customization-list" *ngIf="item.customizations?.length">
+                                <div class="customization-item" *ngFor="let custom of item.customizations">
+
+                                    <ng-container *ngIf="custom.value === 'true'; else textOption">
+
+                                        ✓ {{custom.optionName}}
+
+                                        <span *ngIf="custom.extraPrice > 0">
+                                            (+LKR {{custom.extraPrice}})
+                                        </span>
+
+                                    </ng-container>
+
+                                    <ng-template #textOption>
+
+                                        <strong>{{custom.optionName}}</strong>:
+                                        {{custom.value}}
+
+                                        <span *ngIf="custom.extraPrice > 0">
+                                            (+LKR {{custom.extraPrice}})
+                                        </span>
+
+                                    </ng-template>
+
+                                </div>
+                            </div>
 
                             <p class="price">
-                                LKR {{item.productEntity.price}}
+                                LKR {{item.price}}
                             </p>
                         </div>
                     </div>
@@ -128,7 +91,7 @@
 
                     </div>
 
-                    <div class="item-total">LKR{{item.productEntity.price * item.quantity}}</div>
+                    <div class="item-total">LKR{{item.price * item.quantity}}</div>
 
                 </div>
 

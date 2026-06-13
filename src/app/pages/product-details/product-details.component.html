@@ -23,10 +23,92 @@
             <span>{{product.size}} kg</span>
         </div>
 
+        <div class="customization-section" *ngIf="product.customizations?.length">
+            <h3>Customize your cake</h3>
+            <div class="custom-card" *ngFor="let custom of product.customizations">
+                <div *ngIf="custom.optionType === 'CHECKBOX'">
+                    <!-- <label>
+                        <input type="checkbox" (change)="toggleCustomization(custom, $event)">
+                        {{ custom.optionName }}
+                        (+ LKR {{ custom.extraPrice }})
+                    </label> -->
+                    <div class="checkbox-option">
+                        <input type="checkbox" (change)="toggleCustomization(custom, $event)">
+
+                        <span>
+                            {{ custom.optionName }}
+                            <span class="extra-price">
+                                (+ LKR {{ custom.extraPrice }})
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                <div *ngIf="custom.optionType === 'TEXT'">
+                    <label>{{ custom.optionName }}</label>
+                    <input type="text" class="form-control" placeholder="Enter {{ custom.optionName }}"
+                        (input)="updateCustomizationText(custom, $event)">
+                </div>
+
+                <div *ngIf="custom.optionType === 'TEXTAREA'">
+
+                    <label>{{ custom.optionName }}</label>
+
+                    <textarea class="form-control" rows="4" placeholder="Enter {{ custom.optionName }}"
+                        (input)="updateCustomizationText(custom, $event)">
+                    </textarea>
+
+                </div>
+
+                <div *ngIf="custom.optionType === 'DROPDOWN'">
+                    <label>{{ custom.optionName }}</label>
+
+                    <select (change)="updateCustomizationText(custom, $event)" class="form-control">
+
+                        <option value="">Select</option>
+
+                        <option *ngFor="let value of custom.optionValues" [value]="value">
+                            {{ value }}
+                        </option>
+
+                    </select>
+                </div>
+                <!-- <div class="radio-group">
+                    <div *ngFor="let value of custom.optionValues">
+                        <input type="radio" [name]="'radio_' + custom.optionId" [value]="value"
+                            (change)="updateCustomizationText(custom, $event)">
+                        {{ value }}
+                    </div>
+                </div> -->
+                <div class="radio-group" *ngIf="custom.optionType === 'RADIO'">
+
+                    <label>{{ custom.optionName }}</label>
+
+                    <div *ngFor="let value of custom.optionValues">
+
+                        <input type="radio" [name]="'radio_' + custom.optionId" [value]="value"
+                            (change)="updateCustomizationText(custom, $event)">
+
+                        {{ value }}
+
+                    </div>
+
+                </div>
+                <div *ngIf="custom.optionType === 'NUMBER'">
+
+                    <label>{{ custom.optionName }}</label>
+
+                    <input type="number" class="form-control" (input)="updateCustomizationText(custom, $event)">
+
+                </div>
+            </div>
+        </div>
+
         <div class="quantity-section">
-            <button mat-icon-button color="warn" (click)="decreaseQty()"><mat-icon>remove_circle_outline</mat-icon></button>
+            <button mat-icon-button color="warn"
+                (click)="decreaseQty()"><mat-icon>remove_circle_outline</mat-icon></button>
             <span>{{quantity}}</span>
-            <button mat-icon-button color="primary" (click)="increaseQty()"><mat-icon>add_circle_outline</mat-icon></button>
+            <button mat-icon-button color="primary"
+                (click)="increaseQty()"><mat-icon>add_circle_outline</mat-icon></button>
         </div>
         <div class="button-group">
             <button mat-raised-button color="primary" (click)="addToCart()">Add to Cart</button>

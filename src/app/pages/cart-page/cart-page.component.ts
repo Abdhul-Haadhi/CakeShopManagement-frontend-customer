@@ -46,7 +46,7 @@ export class CartPageComponent implements OnInit {
       console.log("CART RESPONSE:", response);
 
       response.forEach((element: any) => {
-        element.processedImg = 'data:image/jpeg;base64,' + element.productEntity.image;
+        element.processedImg = 'data:image/jpeg;base64,' + element.byteImage;
 
         element.selected = true;
         this.cartItems.push(element);
@@ -60,7 +60,7 @@ export class CartPageComponent implements OnInit {
     this.totalAmount = 0;
     this.cartItems.forEach(item => {
       if(item.selected){
-        this.totalAmount += item.productEntity.price * item.quantity;
+        this.totalAmount += item.price * item.quantity;
       }
     });
   }

@@ -58,14 +58,41 @@
 
     <div class="checkout-right">
         <h2>Order Summary</h2>
+        <!-- <div class="summary-card" *ngFor="let item of cartItems">
+            <img [src]="item.processedImg" alt="cake">
+            <div class="summary-info">
+                <h3>{{item.productName}}</h3>
+                <p>Qty: {{item.quantity}}</p>
+                <p>LKR {{item.quantity * item.price}}</p>
+            </div>
+        </div> -->
+
         <div class="summary-card" *ngFor="let item of cartItems">
             <img [src]="item.processedImg" alt="cake">
             <div class="summary-info">
-                <h3>{{item.productEntity.productName}}</h3>
+                <h3>{{item.productName}}</h3>
+                <div class="customization-list" *ngIf="item.customizations?.length">
+                    <div class="customization-item" *ngFor="let custom of item.customizations">
+                        <ng-container *ngIf="custom.value === 'true'; else textOption">
+                            ✓ {{custom.optionName}}
+                            <span *ngIf="custom.extraPrice > 0">
+                                (+LKR {{custom.extraPrice}})
+                            </span>
+                        </ng-container>
+                        <ng-template #textOption>
+                            <strong>{{custom.optionName}}</strong>:
+                            {{custom.value}}
+                            <span *ngIf="custom.extraPrice > 0">
+                                (+LKR {{custom.extraPrice}})
+                            </span>
+                        </ng-template>
+                    </div>
+                </div>
                 <p>Qty: {{item.quantity}}</p>
-                <p>LKR {{item.quantity * item.productEntity.price}}</p>
+                <p>LKR {{item.quantity * item.price}}</p>
             </div>
         </div>
+
         <div class="total-box">
             Total: LKR {{totalAmount}}
         </div>
