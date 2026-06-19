@@ -83,6 +83,7 @@ export class FeaturedProductsComponent implements OnInit {
 
     this.cartService.addToCart(data).subscribe({
       next:(response)=>{
+        this.cartService.updateCartCount();
         console.log("Added to cart", response);
 
         this.snackBar.open("Product added to cart!",'Close',{duration:5000});

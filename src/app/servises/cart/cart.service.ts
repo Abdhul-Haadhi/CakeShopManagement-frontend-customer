@@ -2,6 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 const BASIC_URL = "http://localhost:8080/"
 
@@ -11,6 +12,9 @@ const BASIC_URL = "http://localhost:8080/"
 export class CartService {
 
   private platformId = inject(PLATFORM_ID);
+
+  private cartCountSource = new BehaviorSubject<number>(0);
+  cartCount$ = this.cartCountSource.asObservable();
 
   constructor(private http: HttpClient) {
     if (isPlatformBrowser(this.platformId)) {
@@ -58,7 +62,19 @@ export class CartService {
     return this.http.get(`${BASIC_URL}api/public/cart/item/${cartId}`);
   }
 
+  updateQuantity(cartId: number, quantity: number) {
+    console.log("qua::", quantity, cartId)
+    return this.http.put(`${BASIC_URL}api/public/cart/${cartId}/quantity`, { quantity: quantity })
+  }
+
   deleteCartItem(cartId: number) {
     return this.http.delete(BASIC_URL + `api/public/cart/${cartId}`);
   }
+
+  updateCartCount(){
+    this.getCartItems().subscribe((items:any)=>{
+      this.cartCountSource.next(items.length);
+    });
+  }
+
 }

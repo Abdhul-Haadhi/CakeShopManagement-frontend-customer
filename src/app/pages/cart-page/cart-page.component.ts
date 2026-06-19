@@ -9,6 +9,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { RouterLink } from '@angular/router';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cart-page',
@@ -59,52 +60,86 @@ export class CartPageComponent implements OnInit {
   calculateTotal() {
     this.totalAmount = 0;
     this.cartItems.forEach(item => {
-      if(item.selected){
-        this.totalAmount += item.price * item.quantity;
+      if (item.selected) {
+        this.totalAmount += item.price;
       }
     });
   }
 
-  goToCheckout(){
+  goToCheckout() {
     const selectedItem = this.cartItems.filter(
       item => item.selected
     );
 
-    localStorage.setItem('checkoutItems',JSON.stringify(selectedItem));
+    localStorage.setItem('checkoutItems', JSON.stringify(selectedItem));
   }
+
+
+  // increaseQuantity(item: any) {
+  //   item.quantity++;
+  //   this.calculateTotal();
+  // }
 
 
   increaseQuantity(item: any) {
-    item.quantity++;
-    this.calculateTotal();
+    this.cartService.updateQuantity(item.cartId, item.quantity + 1).subscribe(() => {
+      this.loadCart()
+    })
   }
+
+  // decreaseQuantity(item: any) {
+  //   if (item.quantity > 1) {
+  //     item.quantity--;
+  //     this.calculateTotal();
+  //   }
+  // }
+
 
   decreaseQuantity(item: any) {
     if (item.quantity > 1) {
-      item.quantity--;
-      this.calculateTotal();
+      this.cartService.updateQuantity(item.cartId, item.quantity - 1).subscribe(() => {
+        this.loadCart();
+      })
     }
   }
 
   deleteItem(cartId: number) {
 
-    this.cartService.deleteCartItem(cartId).subscribe({
-      next: () => {
-        this.snackBar.open('Item removed from cart', 'Close', { duration: 3000 });
+    try {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'You want to delete this?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel',
+      }).then((result) => {
+        if (result && !result.isConfirmed) {
+          return;
+        }
 
-        this.loadCart();
-      },
-      error: () => {
-        this.snackBar.open('Failed to remove item', 'Close', { duration: 3000 });
-      }
-    });
+        this.cartService.deleteCartItem(cartId).subscribe({
+          next: () => {
+            this.snackBar.open('Item removed from cart', 'Close', { duration: 3000 });
 
-    this.cartItems = this.cartItems.filter(
-      item => item.cartId !== cartId
-    );
-    this.calculateTotal();
+            this.cartService.updateCartCount();
+            this.loadCart();
+          },
+          error: () => {
+            this.snackBar.open('Failed to remove item', 'Close', { duration: 3000 });
+          }
+        });
+        this.cartItems = this.cartItems.filter(
+          item => item.cartId !== cartId
+        );
+        this.calculateTotal();
+      });
+    }
+    catch (error) {
+      this.snackBar.open('Action failed with error ' + error, 'Close', { duration: 5000 });
+    }
+
   }
-
 
 }
 

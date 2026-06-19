@@ -1,4 +1,4 @@
-import { CommonModule, NgForOf } from '@angular/common';
+import { CommonModule, NgForOf, DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,11 +9,16 @@ import { CartService } from '../../servises/cart/cart.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OrderService } from '../../servises/order/order.service';
 import { Router } from '@angular/router';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import Swal from 'sweetalert2';
+import { MatDialog } from '@angular/material/dialog';
+import { PaymentDialogComponent } from '../../components/payment-dialog/payment-dialog.component';
 
 @Component({
   selector: 'app-checkout-page',
   standalone: true,
-  imports: [CommonModule, NgForOf, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatRadioModule, MatButtonModule],
+  imports: [CommonModule, NgForOf, ReactiveFormsModule, MatFormFieldModule, MatDatepickerModule, MatNativeDateModule, DatePipe, MatInputModule, MatRadioModule, MatButtonModule],
   templateUrl: './checkout-page.component.html',
   styleUrl: './checkout-page.component.scss'
 })
@@ -23,25 +28,38 @@ export class CheckoutPageComponent implements OnInit {
   cartItems: any[] = [];
   totalAmount = 0;
   quantity = 0;
+  isButtonDisabled = false;
+  submitted = false;
+  minDate: Date;
+
+  paymentId: number | null = null;
 
   constructor(private fb: FormBuilder,
     private router: Router,
     private cartService: CartService,
     private snackBar: MatSnackBar,
     private orderService: OrderService,
-  ) { }
+    private dialog: MatDialog
+  ) {
+    this.minDate = new Date();
+  }
 
 
   ngOnInit(): void {
     this.checkoutForm = this.fb.group({
-      customerName: ['', Validators.required],
-      phone: ['', Validators.required],
-      email: ['', Validators.email],
-      address: ['', Validators.required],
-      city: ['', Validators.required],
-      deliveryDate: ['', Validators.required],
-      notes: [''],
-      paymentMethod: ['COD'],
+      customerName: ['', [Validators.required, Validators.pattern('^[A-Za-z ]+$'),]],
+      phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$'),]],
+      email: ['', [Validators.required, Validators.email]],
+      address: ['', [Validators.required, Validators.maxLength(150),]],
+      city: ['', [Validators.required, Validators.maxLength(100),]],
+      deliveryDate: ['', [Validators.required,]],
+      paymentMethod: ['COD', [Validators.required,]],
+
+      // cardNumber: [''],
+      // cardHolderName: [''],
+      // expiryMonth: [''],
+      // expiryYear: [''],
+      // cvv: ['']
     });
 
 
@@ -90,7 +108,8 @@ export class CheckoutPageComponent implements OnInit {
     this.quantity = 0;
 
     this.cartItems.forEach((item: any) => {
-      this.totalAmount += item.quantity * item.price;
+      // this.totalAmount += item.quantity * item.price;
+      this.totalAmount += item.price;
 
       this.quantity += item.quantity;
     });
@@ -114,8 +133,14 @@ export class CheckoutPageComponent implements OnInit {
     });
   }
 
-  placeOrder() {
+  placeOrder(paymentId?: number) {
     if (this.checkoutForm.invalid) {
+      return;
+    }
+
+    if (this.checkoutForm.value.paymentMethod === 'CARD' && !this.paymentId) {
+      this.snackBar.open('Please complete payment first', 'Close', { duration: 3000 });
+
       return;
     }
 
@@ -123,10 +148,9 @@ export class CheckoutPageComponent implements OnInit {
       ...this.checkoutForm.value,
       totalAmount: this.totalAmount,
       quantity: this.quantity,
-
       cartItemIds: this.cartItems.map(item => item.cartId),
-
-      sessionId: localStorage.getItem('cartId')
+      sessionId: localStorage.getItem('cartId'),
+      paymentId: this.paymentId
     };
 
     console.log("Order Data: ", orderData);
@@ -140,6 +164,7 @@ export class CheckoutPageComponent implements OnInit {
         localStorage.removeItem('buyNowCartId');
 
         this.snackBar.open('Order Placed Successfully!', 'Close', { duration: 3000 });
+        this.cartService.updateCartCount();
 
         setTimeout(() => {
           this.router.navigate(['/orders']);
@@ -148,6 +173,8 @@ export class CheckoutPageComponent implements OnInit {
         // localStorage.removeItem('buyNowItem');
         // localStorage.removeItem('checkoutItems');
         // localStorage.removeItem('buyNowCartId');
+
+        this.isButtonDisabled = true;
 
 
       },
@@ -159,6 +186,47 @@ export class CheckoutPageComponent implements OnInit {
       }
     });
 
+  }
+
+
+  openPayment() {
+    const dialogRef = this.dialog.open(PaymentDialogComponent, {
+      width: '500px',
+      data: {
+        totalAmount: this.totalAmount
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log("Payment Success:", result);
+
+        this.paymentId = result.paymentId;
+
+        this.snackBar.open('Payment completed successfully', 'Close', { duration: 3000 });
+
+        this.placeOrder(result.paymentId);
+      }
+    });
+
+  }
+
+
+
+  closeForm() {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You want to cancel this?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, cancel it!',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result && !result.isConfirmed) {
+        return;
+      }
+      this.router.navigate(['/']);
+    });
   }
 
 

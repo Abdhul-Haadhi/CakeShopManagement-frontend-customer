@@ -23,7 +23,12 @@ export class NavbarComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.loadCartCount();
+    // this.loadCartCount();
+    this.cartService.cartCount$.subscribe(count=>{
+      this.cartCount = count;
+    });
+
+    this.cartService.updateCartCount();
   }
 
 

@@ -20,7 +20,7 @@
 
         <div class="size-box">
             <span class="label">Size:</span>
-            <span>{{product.size}} kg</span>
+            <span>{{product.size}} g</span>
         </div>
 
         <div class="customization-section" *ngIf="product.customizations?.length">
@@ -45,22 +45,31 @@
                 </div>
                 <div *ngIf="custom.optionType === 'TEXT'">
                     <label>{{ custom.optionName }}</label>
-                    <input type="text" class="form-control" placeholder="Enter {{ custom.optionName }}"
-                        (input)="updateCustomizationText(custom, $event)">
+                    <span class="extra-price">
+                        (+ LKR {{ custom.extraPrice }})
+                    </span>
+                    <input type="text" style="width: 650px;" class="form-control"
+                        placeholder="Enter {{ custom.optionName }}" (input)="updateCustomizationText(custom, $event)">
                 </div>
 
                 <div *ngIf="custom.optionType === 'TEXTAREA'">
 
                     <label>{{ custom.optionName }}</label>
+                    <span class="extra-price">
+                        (+ LKR {{ custom.extraPrice }})
+                    </span>
 
-                    <textarea class="form-control" rows="4" placeholder="Enter {{ custom.optionName }}"
-                        (input)="updateCustomizationText(custom, $event)">
+                    <textarea class="form-control" style="width: 650px;" rows="4"
+                        placeholder="Enter {{ custom.optionName }}" (input)="updateCustomizationText(custom, $event)">
                     </textarea>
 
                 </div>
 
                 <div *ngIf="custom.optionType === 'DROPDOWN'">
                     <label>{{ custom.optionName }}</label>
+                    <span class="extra-price">
+                        (+ LKR {{ custom.extraPrice }})
+                    </span>
 
                     <select (change)="updateCustomizationText(custom, $event)" class="form-control">
 
@@ -82,6 +91,9 @@
                 <div class="radio-group" *ngIf="custom.optionType === 'RADIO'">
 
                     <label>{{ custom.optionName }}</label>
+                    <span class="extra-price">
+                        (+ LKR {{ custom.extraPrice }})
+                    </span>
 
                     <div *ngFor="let value of custom.optionValues">
 
@@ -113,7 +125,7 @@
         <div class="button-group">
             <button mat-raised-button color="primary" (click)="addToCart()">Add to Cart</button>
             <button mat-raised-button color="accent" (click)="buyNow()">Buy Now</button>
-            <button mat-raised-button color="warn">Customize Cake</button>
+            <button mat-raised-button color="warn" (click)="closeForm()">Cancel</button>
         </div>
     </div>
 </div>

@@ -5,7 +5,8 @@
         <mat-card class="order-card" *ngFor="let order of orders">
             <div class="top-section">
                 <div>
-                    <h2>Order #{{order.orderId}}</h2>
+                    <!-- <h2>Order #{{order.orderId}}</h2> -->
+                    <h2>Order </h2>
 
                     <p>
                         {{order.orderDate | date:'medium'}}
@@ -31,7 +32,7 @@
 
                     <h3>Ordered Products</h3>
 
-                    <div class="item-row" *ngFor="let item of order.orderItems">
+                    <!-- <div class="item-row" *ngFor="let item of order.orderItems">
 
                         <span>
                             {{item.productName}}
@@ -41,11 +42,96 @@
                             x {{item.quantity}}
                         </span>
 
+                        <div *ngFor="let custom of item.customizations">
+
+                            <small *ngIf="custom.value === 'true'">
+                                ✓ {{custom.optionName}}
+                                <span *ngIf="custom.extraPrice > 0">
+                                    (+LKR {{custom.extraPrice}})
+                                </span>
+                            </small>
+
+                            <small *ngIf="custom.value !== 'true'">
+                                {{custom.optionName}} :
+                                {{custom.value}}
+                                <span *ngIf="custom.extraPrice > 0">
+                                    (+LKR {{custom.extraPrice}})
+                                </span>
+                            </small>
+
+                        </div>
+
+
+                    </div> -->
+
+
+                    <div class="item-row" *ngFor="let item of order.orderItems">
+
+                        <div class="product-header">
+                            <span class="product-name">
+                                🎂 {{item.productName}}
+                            </span>
+
+                            <span class="product-qty">
+                                Qty: {{item.quantity}}
+                            </span>
+                        </div>
+
+                        <div class="customizations" *ngIf="item.customizations?.length">
+
+                            <div class="custom-chip" [class.checkbox]="custom.value === 'true'"
+                                *ngFor="let custom of item.customizations">
+
+                                <ng-container *ngIf="custom.value === true; else normalCustom">
+                                    ✓ {{custom.optionName}}
+                                </ng-container>
+
+                                <ng-template #normalCustom>
+                                    ✓ {{custom.optionName}}: {{custom.value}}
+                                </ng-template>
+
+                                <span *ngIf="custom.extraPrice > 0">
+                                    (+LKR {{custom.extraPrice}})
+                                </span>
+
+                            </div>
+
+                        </div>
                     </div>
+
+
+                    <!-- <div class="customization-details" *ngFor="let option of options">
+                        <div class="customization-list" *ngIf="option.customizations?.length">
+                            <div *ngFor="let custom of option.customizations">
+                                <ng-container *ngIf="custom.value === 'true'; else textOption">
+
+                                    ✓ {{custom.optionName}}
+
+                                    <span *ngIf="custom.extraPrice > 0">
+                                        (+LKR {{custom.extraPrice}})
+                                    </span>
+
+                                </ng-container>
+
+                                <ng-template #textOption>
+
+                                    <strong>{{custom.optionName}}</strong>:
+                                    {{custom.value}}
+
+                                    <span *ngIf="custom.extraPrice > 0">
+                                        (+LKR {{custom.extraPrice}})
+                                    </span>
+
+                                </ng-template>
+                            </div>
+                        </div>
+
+
+                    </div> -->
 
                 </div>
 
-                <p>
+                <!-- <p>
                     <strong>Tracking ID:</strong>
                     {{order.trackingId}}
                 </p>
@@ -53,7 +139,19 @@
                 <p>
                     <strong>Delevery Date:</strong>
                     {{order.deliveryDate | date:'medium'}}
-                </p>
+                </p> -->
+
+                <div class="tracking-box">
+                    <p>
+                        <strong>Tracking ID:</strong><br>
+                        {{order.trackingId}}
+                    </p>
+
+                    <p>
+                        <strong>Delivery Date:</strong><br>
+                        {{order.deliveryDate | date:'mediumDate'}}
+                    </p>
+                </div>
             </div>
         </mat-card>
     </div>

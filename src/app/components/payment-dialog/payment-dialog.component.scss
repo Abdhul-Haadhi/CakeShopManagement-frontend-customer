@@ -1,0 +1,43 @@
+.card-payment-box {
+    margin-top: 20px;
+    padding: 32px 24px 16px;
+    border: 1px solid #eef0f2;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); /* Soft, modern shadow */
+    max-width: 420px; /* Constrains the width so it doesn't stretch too far */
+    
+    .box-title {
+        margin-top: 0;
+        margin-bottom: 24px;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #1a1a1a;
+    }
+
+    .form-row {
+        display: flex;
+        width: 100%;
+        /* Material fields have built-in bottom margin, no need to add much here */
+    }
+
+    .full-width {
+        width: 100%;
+    }
+
+    /* Flexbox magic for the bottom row */
+    .multi-col {
+        display: flex;
+        gap: 16px; /* Adds clean spacing between the month, year, and CVV */
+        
+        mat-form-field {
+            flex: 1; /* Forces all three fields to share the row equally */
+        }
+    }
+
+    .dialog-actions{
+        display: flex;
+        gap: 10px;
+    }
+}
+

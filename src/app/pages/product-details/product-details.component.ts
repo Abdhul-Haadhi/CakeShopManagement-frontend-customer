@@ -6,6 +6,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CartService } from '../../servises/cart/cart.service';
 import { ProductDetailsService } from '../../servises/productDetails/product-details.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-product-details',
@@ -112,12 +113,14 @@ export class ProductDetailsComponent implements OnInit {
 
     this.cartService.addToCart(data).subscribe({
       next: (response) => {
+        this.cartService.updateCartCount();
         console.log("SUCCESS RESPONSE:", response);
         this.snackBar.open('Item Added to cart', 'Close', { duration: 3000 });
       },
-      error: (error) => {
-        console.log("FULL ERROR:", error);
-        console.log("ERROR BODY:", error.error);
+      error: () => {
+        this.snackBar.open('Item can not be dded to cart', 'Close', { duration: 3000 });
+        // console.log("FULL ERROR:", error);
+        // console.log("ERROR BODY:", error.error);
       }
     })
 
@@ -144,10 +147,12 @@ export class ProductDetailsComponent implements OnInit {
 
       productId: this.product.productId,
       quantity: this.quantity,
-      sessionId: localStorage.getItem('cartId')
+      sessionId: localStorage.getItem('cartId'),
+      customizations: this.selectedCustomizations
 
     };
 
+    console.log('BUY NOW DATA:', data);
     this.cartService.addToCart(data).subscribe({
       next: (response: any) => {
         localStorage.setItem('buyNowCartId', response.cartId);
@@ -155,6 +160,22 @@ export class ProductDetailsComponent implements OnInit {
         this.router.navigate(['/checkout']);
       }
     })
+  }
+
+  closeForm() {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You want to cancel this?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, cancel it!',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result && !result.isConfirmed) {
+        return;
+      }
+      this.router.navigate(['/']);
+    });
   }
 
 

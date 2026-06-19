@@ -3,8 +3,10 @@
 ========================= */
 
 .navbar {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  width: 95%;
   z-index: 1000;
 
   height: 75px;
@@ -118,7 +120,7 @@
 :host {
     display: block;
     // min-height: 100vh;
-    background: #f5f7fb;
-    padding: 25px;
+    // background: #f5f7fb;
+    // padding: 25px;
     font-family: Arial, Helvetica, sans-serif;
 }

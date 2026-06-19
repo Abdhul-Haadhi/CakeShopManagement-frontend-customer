@@ -1,0 +1,43 @@
+<div class="card-payment-box" [formGroup]="paymentForm">
+    <h3 class="box-title">Card Details</h3>
+
+    <div class="form-row">
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Card Number</mat-label>
+            <input matInput formControlName="cardNumber" maxlength="16" placeholder="0000 0000 0000 0000">
+        </mat-form-field>
+    </div>
+
+    <div class="form-row">
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Card Holder Name</mat-label>
+            <input matInput formControlName="cardHolderName" placeholder="Name exactly as it appears on card">
+        </mat-form-field>
+    </div>
+
+    <div class="form-row multi-col">
+        <mat-form-field appearance="outline">
+            <mat-label>Exp Month</mat-label>
+            <input matInput formControlName="expiryMonth" placeholder="MM" maxlength="2">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Exp Year</mat-label>
+            <input matInput formControlName="expiryYear" placeholder="YYYY" maxlength="4">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>CVV</mat-label>
+            <input matInput formControlName="cvv" maxlength="3" type="password">
+        </mat-form-field>
+    </div>
+    <div class="dialog-actions">
+        <button mat-raised-button color="primary" [disabled]="paymentForm.invalid" (click)="processPayment()">
+            Pay Now
+        </button>
+
+        <button mat-raised-button color="warn" (click)="closeDialog()">
+            Cancel
+        </button>
+    </div>
+</div>

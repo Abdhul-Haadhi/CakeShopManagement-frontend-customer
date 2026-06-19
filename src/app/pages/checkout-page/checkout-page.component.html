@@ -5,39 +5,86 @@
             <mat-form-field appearance="outline">
                 <mat-label>Full Name</mat-label>
                 <input matInput formControlName="customerName">
+                <mat-error *ngIf="checkoutForm.get('customerName')?.hasError('required')">
+                    This input is required
+                </mat-error>
+                <mat-error
+                    *ngIf="(checkoutForm.get('customerName')?.touched || submitted) && checkoutForm.get('customerName')?.hasError('pattern')">
+                    Please enter a valid name using only letters.
+                </mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="outline">
                 <mat-label>Phone Number</mat-label>
                 <input matInput formControlName="phone">
+                <mat-error *ngIf="checkoutForm.get('phone')?.hasError('required')">
+                    This input is required
+                </mat-error>
+                <mat-error class="text-danger" *ngIf="
+                checkoutForm.get('phone')?.errors &&
+                (checkoutForm.get('phone')?.errors)!['pattern']
+              ">
+                    Phone number should be 10 digits
+                </mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="outline">
                 <mat-label>Email</mat-label>
                 <input matInput formControlName="email">
+                <mat-error *ngIf="checkoutForm.get('email')?.hasError('required')">
+                    This input is required
+                </mat-error>
+                <mat-error class="text-danger" *ngIf="
+                checkoutForm.get('email')?.errors &&
+                (checkoutForm.get('email')?.errors)!['email']">
+                    Enter a valid Email address
+                </mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="outline">
                 <mat-label>Address</mat-label>
                 <textarea matInput rows="3" formControlName="address">
                 </textarea>
+                <mat-error *ngIf="checkoutForm.get('address')?.hasError('required')">
+                    This input is required
+                </mat-error>
+                <mat-error class="text-danger" *ngIf="
+                (checkoutForm.get('address')?.touched || submitted) &&
+                checkoutForm.get('address')?.errors &&
+                (checkoutForm.get('address')?.errors)!['maxlength']">
+                    Maximum lenght is 150
+                </mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="outline">
                 <mat-label>City</mat-label>
                 <input matInput formControlName="city">
+                <mat-error *ngIf="checkoutForm.get('city')?.hasError('required')">
+                    This input is required
+                </mat-error>
+                <mat-error class="text-danger" *ngIf="
+                (checkoutForm.get('city')?.touched || submitted) &&
+                checkoutForm.get('city')?.errors &&
+                (checkoutForm.get('city')?.errors)!['maxlength']">
+                    Maximum lenght is 100
+                </mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="outline">
                 <mat-label>Delivery Date</mat-label>
-                <input matInput type="date" formControlName="deliveryDate">
+                <input matInput [matDatepicker]="picker" formControlName="deliveryDate" [min]="minDate">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="checkoutForm.get('deliveryDate')?.hasError('required')">
+                    This input is required
+                </mat-error>
             </mat-form-field>
 
-            <mat-form-field appearance="outline">
+            <!-- <mat-form-field appearance="outline">
                 <mat-label>Order Notes</mat-label>
                 <textarea matInput rows="3" formControlName="notes">
                 </textarea>
-            </mat-form-field>
+            </mat-form-field> -->
 
             <div class="payment-section">
                 <h3>Payment Method</h3>
@@ -52,7 +99,38 @@
                     </mat-radio-button>
 
                 </mat-radio-group>
+                <mat-error *ngIf="checkoutForm.get('paymentMethod')?.hasError('required')">
+                    This input is required
+                </mat-error>
             </div>
+            <!-- <div *ngIf="checkoutForm.get('paymentMethod')?.value === 'CARD'" class="card-payment-box">
+                <h3>Card Details</h3>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Card Number</mat-label>
+                    <input matInput formControlName="cardNumber" maxlength="16">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Card Holder Name</mat-label>
+                    <input matInput formControlName="cardHolderName">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Expiry Month</mat-label>
+                    <input matInput formControlName="expiryMonth" placeholder="MM">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Expiry Year</mat-label>
+                    <input matInput formControlName="expiryYear" placeholder="YYYY">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>CVV</mat-label>
+                    <input matInput formControlName="cvv" maxlength="3">
+                </mat-form-field>
+            </div> -->
         </form>
     </div>
 
@@ -89,7 +167,8 @@
                     </div>
                 </div>
                 <p>Qty: {{item.quantity}}</p>
-                <p>LKR {{item.quantity * item.price}}</p>
+                <!-- <p>LKR {{item.quantity * item.price}}</p> -->
+                <p>LKR {{item.price}}</p>
             </div>
         </div>
 
@@ -97,8 +176,12 @@
             Total: LKR {{totalAmount}}
         </div>
 
-        <button mat-raised-button color="primary" class="place-order-btn" (click)="placeOrder()">
+        <button mat-raised-button color="primary" class="place-order-btn" [disabled]="checkoutForm.invalid"
+            (click)="checkoutForm.value.paymentMethod === 'CARD' ? openPayment() : placeOrder()">
             Place Order
+        </button>
+        <button mat-raised-button color="warn" class="cancel-order-btn" (click)="closeForm()">
+            Cancel
         </button>
     </div>
 </div>
