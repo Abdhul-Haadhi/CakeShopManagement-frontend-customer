@@ -193,3 +193,14 @@
     font-weight: 600;
     margin-left: 5px;
 }
+
+.preview-box {
+  margin-top: 15px;
+}
+
+.preview-box img {
+  width: 200px;
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}

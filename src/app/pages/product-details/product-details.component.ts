@@ -22,6 +22,9 @@ export class ProductDetailsComponent implements OnInit {
 
   selectedCustomizations: any[] = [];
 
+  selectedFile: File | null = null;
+  previewImage: string | null = null;
+
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -62,6 +65,60 @@ export class ProductDetailsComponent implements OnInit {
       this.quantity--;
     }
   }
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+
+    if (file) {
+      this.selectedFile = file;
+
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        this.previewImage = reader.result as string;
+      };
+
+      reader.readAsDataURL(file);
+    }
+  }
+
+
+
+  uploadReferenceImage(custom: any, event: any) {
+    const file = event.target.files[0];
+
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const base64 = (reader.result as string).split(',')[1];
+
+      this.previewImage = reader.result as string;
+
+      const existing = this.selectedCustomizations.find(
+        x => x.optionId === custom.optionId
+      );
+
+      if (existing) {
+        existing.referenceImage = base64;
+        existing.value = file.name;
+      } else {
+        this.selectedCustomizations.push({
+          optionId: custom.optionId,
+          optionName: custom.optionName,
+          value: file.name,
+          referenceImage: base64,
+          extraPrice: custom.extraPrice
+        });
+      }
+
+      console.log(this.selectedCustomizations);
+    };
+
+    reader.readAsDataURL(file);
+  }
+
 
   toggleCustomization(custom: any, event: any) {
     if (event.target.checked) {
@@ -128,17 +185,34 @@ export class ProductDetailsComponent implements OnInit {
 
 
   // buyNow() {
-  //   const buyNowItem = {
-  //     productEntity: this.product,
-  //     quantity: this.quantity,
-  //     processedImg: this.product.processedImage
-  //   };
 
-  //   localStorage.setItem(
-  //     'buyNowItem', JSON.stringify(buyNowItem)
+  //   const formData = new FormData();
+
+  //   formData.append(
+  //     "cartData",
+  //     new Blob(
+  //       [JSON.stringify({
+  //         productId: this.product.productId,
+  //         quantity: this.quantity,
+  //         sessionId: localStorage.getItem('cartId'),
+  //         customizations: this.selectedCustomizations
+  //       })],
+  //       { type: "application/json" }
+  //     )
   //   );
 
-  //   this.router.navigate(['/checkout']);
+  //   if (this.selectedFile) {
+  //     formData.append("referenceImage", this.selectedFile);
+  //   }
+
+  //   console.log('BUY NOW DATA:', formData);
+  //   this.cartService.addToCart(formData).subscribe({
+  //     next: (response: any) => {
+  //       localStorage.setItem('buyNowCartId', response.cartId);
+
+  //       this.router.navigate(['/checkout']);
+  //     }
+  //   })
   // }
 
 
@@ -161,6 +235,7 @@ export class ProductDetailsComponent implements OnInit {
       }
     })
   }
+
 
   closeForm() {
     Swal.fire({

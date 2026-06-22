@@ -82,9 +82,17 @@
                             <div class="custom-chip" [class.checkbox]="custom.value === 'true'"
                                 *ngFor="let custom of item.customizations">
 
-                                <ng-container *ngIf="custom.value === true; else normalCustom">
+                                <div *ngIf="custom.optionType === 'FILE'; else normalCustom">
+                                    <strong>{{custom.optionName}}</strong>:
+                                    <img *ngIf="custom.referenceImage"
+                                        [src]="'data:image/jpeg;base64,' + custom.referenceImage" width="120"
+                                        (click)="openImageLightbox(custom.referenceImage)" class="clickable-thumbnail"
+                                        title="Click to expand" style="border-radius: 10px;">
+                                </div>
+
+                                <!-- <ng-container *ngIf="custom.value === true; else normalCustom">
                                     ✓ {{custom.optionName}}
-                                </ng-container>
+                                </ng-container> -->
 
                                 <ng-template #normalCustom>
                                     ✓ {{custom.optionName}}: {{custom.value}}
@@ -159,6 +167,12 @@
     <ng-template #noOrders>
         <div class="empty">
             <h2>No Orders Yet</h2>
+        </div>
+    </ng-template>
+    <ng-template #imagePreviewDialog>
+        <div class="lightbox-container">
+            <button class="close-lightbox-btn" mat-dialog-close>&times;</button>
+            <img [src]="'data:image/jpeg;base64,' + selectedPreviewImage" alt="Enlarged customization preview">
         </div>
     </ng-template>
 </div>

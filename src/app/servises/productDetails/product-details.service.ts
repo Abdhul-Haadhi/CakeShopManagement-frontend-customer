@@ -13,4 +13,9 @@ export class ProductDetailsService {
   getProductById(id: any) {
     return this.http.get(BASIC_URL + `api/public/product/${id}`);
   }
+
+  uploadCustomizationImage(data: FormData) {
+    return this.http.post(BASIC_URL + `/upload/customization-image`, data)
+  }
+
 }

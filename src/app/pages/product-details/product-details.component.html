@@ -112,6 +112,17 @@
                     <input type="number" class="form-control" (input)="updateCustomizationText(custom, $event)">
 
                 </div>
+
+                <div *ngIf="custom.optionType === 'FILE'">
+
+                    <label>{{ custom.optionName }}</label>
+        
+                    <input type="file" accept="image/*" (change)="uploadReferenceImage(custom, $event)">
+
+                    <div *ngIf="previewImage" class="preview-box">
+                        <img [src]="previewImage" alt="Reference Preview">
+                    </div>
+                </div>
             </div>
         </div>
 

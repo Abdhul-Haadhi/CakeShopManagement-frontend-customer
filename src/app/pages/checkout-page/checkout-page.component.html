@@ -103,47 +103,12 @@
                     This input is required
                 </mat-error>
             </div>
-            <!-- <div *ngIf="checkoutForm.get('paymentMethod')?.value === 'CARD'" class="card-payment-box">
-                <h3>Card Details</h3>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Card Number</mat-label>
-                    <input matInput formControlName="cardNumber" maxlength="16">
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Card Holder Name</mat-label>
-                    <input matInput formControlName="cardHolderName">
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Expiry Month</mat-label>
-                    <input matInput formControlName="expiryMonth" placeholder="MM">
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Expiry Year</mat-label>
-                    <input matInput formControlName="expiryYear" placeholder="YYYY">
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>CVV</mat-label>
-                    <input matInput formControlName="cvv" maxlength="3">
-                </mat-form-field>
-            </div> -->
+            
         </form>
     </div>
 
     <div class="checkout-right">
         <h2>Order Summary</h2>
-        <!-- <div class="summary-card" *ngFor="let item of cartItems">
-            <img [src]="item.processedImg" alt="cake">
-            <div class="summary-info">
-                <h3>{{item.productName}}</h3>
-                <p>Qty: {{item.quantity}}</p>
-                <p>LKR {{item.quantity * item.price}}</p>
-            </div>
-        </div> -->
 
         <div class="summary-card" *ngFor="let item of cartItems">
             <img [src]="item.processedImg" alt="cake">
