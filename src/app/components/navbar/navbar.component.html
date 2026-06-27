@@ -18,12 +18,43 @@
             <span class="cart-badge">{{cartCount}}</span>
         </button>
 
-        <button mat-raised-button color="primary" class="login-btn" routerLink="/login">
-            Login
-        </button>
+        <ng-container *ngIf="!isLoggedIn; else profileMenu">
+            <button mat-raised-button color="primary" class="login-btn" (click)="goToLogin()">
+                Login
+            </button>
+        </ng-container>
 
-        <button mat-icon-button class="menu-btn" (click)="menuOpen = !menuOpen">
-            <mat-icon>menu</mat-icon>
-        </button>
+        <ng-template #profileMenu>
+            <div class="profile-menu">
+
+                <button mat-icon-button class="profile-btn" (click)="toggleProfileMenu()">
+                    <mat-icon>account_circle</mat-icon>
+                </button>
+
+                <div class="dropdown" *ngIf="profileMenuOpen">
+                    <div class="dropdown-header">
+                        <mat-icon>person</mat-icon>
+                        <span>My Account</span>
+                    </div>
+
+                    <a routerLink="/orders">
+                        <mat-icon>receipt_long</mat-icon>
+                        My Orders
+                    </a>
+
+                    <button (click)="openEditProfile()">
+                        <mat-icon>edit</mat-icon>
+                        Edit Profile
+                    </button>
+
+                    <button (click)="logout()">
+                        <mat-icon>logout</mat-icon>
+                        Logout
+                    </button>
+
+                </div>
+
+            </div>
+        </ng-template>
     </div>
 </nav>

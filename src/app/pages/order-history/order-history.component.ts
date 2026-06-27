@@ -29,14 +29,17 @@ export class OrderHistoryComponent implements OnInit {
   }
 
   loadOrders() {
-    const sessionId = localStorage.getItem('cartId');
 
-    this.orderService.getOrders(sessionId).subscribe((response: any) => {
-      console.log("RAW RESPONSE:", response);
-      this.orders = response;
+    this.orderService.getOrders().subscribe({
+      next: (response: any) => {
+        console.log("RAW RESPONSE:", response);
+        this.orders = response || [];
+      },
+      error: (error) => {
+        console.error("Order fetch failed:", error);
+      }
 
-      console.log("getting orders:", this.orders);
-    })
+    });
   }
 
   openImageLightbox(base64String: string) {

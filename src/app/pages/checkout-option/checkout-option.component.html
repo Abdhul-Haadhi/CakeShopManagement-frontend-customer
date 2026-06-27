@@ -1,0 +1,33 @@
+<div class="checkout-option-container">
+
+    <h1>How would you like to continue?</h1>
+
+    <div class="option-card">
+
+        <div class="guest-option">
+            <h2>Continue as Guest</h2>
+            <p>
+                You can place your order without creating an account.
+            </p>
+
+            <button mat-raised-button color="primary" (click)="continueAsGuest()">
+                Continue as Guest
+            </button>
+        </div>
+
+        <div class="divider">OR</div>
+
+        <div class="login-option">
+            <h2>Login / Register</h2>
+            <p>
+                Login with your phone number and OTP.
+            </p>
+
+            <button mat-raised-button color="accent" (click)="goToLogin()">
+                Login / Register
+            </button>
+        </div>
+
+    </div>
+
+</div>

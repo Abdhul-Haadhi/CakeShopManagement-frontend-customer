@@ -53,14 +53,27 @@ export class CartService {
   }
 
   getCartItems() {
+
+    const customerId = localStorage.getItem('customerId');
+
+    if (customerId) {
+      return this.http.get(BASIC_URL + `api/public/cart?customerId=${customerId}`);
+    }
+
     const sessionId = this.getCartId();
 
-    return this.http.get(BASIC_URL + `api/public/cart/${sessionId}`);
+    return this.http.get(BASIC_URL + `api/public/cart?sessionId=${sessionId}`);
   }
 
   getCartItemById(cartId: any) {
     return this.http.get(`${BASIC_URL}api/public/cart/item/${cartId}`);
   }
+
+
+  mergeCart(sessionId: string, customerId: string) {
+    return this.http.post(BASIC_URL + `api/public/cart/merge?sessionId=${sessionId}&customerId=${customerId}`, {});
+  }
+
 
   updateQuantity(cartId: number, quantity: number) {
     console.log("qua::", quantity, cartId)
@@ -71,8 +84,8 @@ export class CartService {
     return this.http.delete(BASIC_URL + `api/public/cart/${cartId}`);
   }
 
-  updateCartCount(){
-    this.getCartItems().subscribe((items:any)=>{
+  updateCartCount() {
+    this.getCartItems().subscribe((items: any) => {
       this.cartCountSource.next(items.length);
     });
   }

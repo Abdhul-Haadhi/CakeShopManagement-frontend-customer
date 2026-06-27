@@ -1,0 +1,115 @@
+// Brand Colors
+$primary-pink: #ff4081;
+$gradient-pink: linear-gradient(135deg, #ff4081, #ff80ab);
+$text-dark: #2c3e50;
+$bg-faint-pink: #fdf6f8;
+
+.register-container {
+    /* Full screen centered layout */
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: $bg-faint-pink;
+    padding: 20px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.register-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 480px;
+    /* Keeps the form from getting too wide on desktop */
+    padding: 40px 45px;
+    border-radius: 24px;
+
+    /* Soft pink-tinted shadow for a cohesive theme */
+    box-shadow: 0 15px 35px rgba(255, 64, 129, 0.08);
+    text-align: center;
+
+    /* Smooth entrance animation */
+    animation: slideUp 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+
+    .logo-section {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 15px;
+
+        img {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+            color: $primary-pink;
+            letter-spacing: 0.5px;
+        }
+    }
+
+    h1 {
+        font-size: 22px;
+        color: $text-dark;
+        margin-bottom: 30px;
+        font-weight: 500;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        /* Spacing between Material inputs */
+
+        .full-width {
+            width: 100%;
+        }
+
+        /* Customizing the Material Button to match your Navbar profile button */
+        button[type="submit"] {
+            margin-top: 15px;
+            height: 52px;
+            border-radius: 26px;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 1px;
+
+            /* Overriding default Material primary color */
+            background: $gradient-pink !important;
+            color: white !important;
+            border: none;
+
+            box-shadow: 0 8px 20px rgba(255, 64, 129, 0.25);
+            transition: all 0.3s ease;
+
+            &:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 12px 25px rgba(255, 64, 129, 0.4);
+            }
+
+            &:active {
+                transform: translateY(0);
+                box-shadow: 0 4px 10px rgba(255, 64, 129, 0.2);
+            }
+        }
+    }
+}
+
+/* Entrance Animation Keyframes */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

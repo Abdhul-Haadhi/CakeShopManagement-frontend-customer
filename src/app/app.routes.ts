@@ -21,4 +21,16 @@ export const routes: Routes = [
         path: "orders", loadComponent: () =>
             import('./pages/order-history/order-history.component').then(m => m.OrderHistoryComponent)
     },
+    {
+        path: "checkout-option", loadComponent: () =>
+            import('./pages/checkout-option/checkout-option.component').then(m => m.CheckoutOptionComponent)
+    },
+    {
+        path: "login", loadComponent: () =>
+            import('./pages/login-page/login-page.component').then(m => m.LoginPageComponent)
+    },
+    {
+        path: 'register', loadComponent: () =>
+            import('./pages/register-page/register-page.component').then(m => m.RegisterPageComponent)
+    },
 ];

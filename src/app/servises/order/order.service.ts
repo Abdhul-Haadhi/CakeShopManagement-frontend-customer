@@ -11,11 +11,24 @@ export class OrderService {
 
   constructor(private http: HttpClient) { }
 
-  placeOrder(data:any){
-    return this.http.post(BASIC_URL+'api/public/place-order',data);
+  placeOrder(data: any) {
+    return this.http.post(BASIC_URL + 'api/public/place-order', data);
   }
 
-  getOrders(sessionId:any){
-    return this.http.get(`${BASIC_URL}api/public/orders/${sessionId}`);
+  getOrders() {
+
+    const customerId = localStorage.getItem('customerId');
+    const sessionId = localStorage.getItem('cartId');
+
+    return this.http.get(`${BASIC_URL}api/public/orders`, {
+      params: {
+        customerId: customerId || '',
+        sessionId: sessionId || ''
+      }
+    });
+  }
+
+  getCustomerById(customerId: string) {
+    return this.http.get(`${BASIC_URL}api/customer/auth/get-customer/${customerId}`);
   }
 }

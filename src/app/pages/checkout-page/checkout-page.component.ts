@@ -101,6 +101,26 @@ export class CheckoutPageComponent implements OnInit {
     else {
       this.loadCart();
     }
+
+    this.loggedInCustomers();
+  }
+
+
+  loggedInCustomers() {
+    const customerId = localStorage.getItem('customerId');
+
+    if (customerId) {
+      this.orderService.getCustomerById(customerId).subscribe((customer: any) => {
+        console.log("customers::",customer)
+        this.checkoutForm.patchValue({
+          customerName: customer.customerName,
+          phone: customer.phone,
+          email: customer.email,
+          address: customer.address
+        });
+      });
+    }
+    
   }
 
   calculateTotal() {
@@ -150,6 +170,7 @@ export class CheckoutPageComponent implements OnInit {
       quantity: this.quantity,
       cartItemIds: this.cartItems.map(item => item.cartId),
       sessionId: localStorage.getItem('cartId'),
+      customerId: localStorage.getItem('customerId'),
       paymentId: this.paymentId
     };
 
@@ -191,7 +212,7 @@ export class CheckoutPageComponent implements OnInit {
 
   openPayment() {
     const dialogRef = this.dialog.open(PaymentDialogComponent, {
-      width: '500px',
+      width: '518px',
       data: {
         totalAmount: this.totalAmount
       }

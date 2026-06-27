@@ -1,3 +1,8 @@
+<div class="hero-section">
+    <h1>Discover Your Next Treat</h1>
+    <p>Hand-crafted cakes delivered to your doorstep.</p>
+</div>
+
 <form [formGroup]="searchProductForm" class="search-form" (submit)="onSubmit()">
     <mat-form-field appearance="outline" class="search-input">
         <mat-label>Enter keyword to search</mat-label>
@@ -42,7 +47,8 @@
                 <button mat-raised-button color="primary" class="cart-button" (click)="addToCart(product.productId)">
                     Add to Cart
                 </button>
-                <button mat-raised-button color="warn" class="view-button" [routerLink]="['/product', product.productId]">
+                <button mat-raised-button color="warn" class="view-button"
+                    [routerLink]="['/product', product.productId]">
                     View Details
                 </button>
             </div>

@@ -1,0 +1,83 @@
+/* Brand Colors */
+$primary-pink: #ff4081;
+$gradient-pink: linear-gradient(135deg, #ff4081, #ff80ab);
+
+/* This removes the default scrollbars from the Material Dialog wrapper */
+::ng-deep .custom-dialog-container {
+    .mat-mdc-dialog-container {
+        border-radius: 16px !important;
+        overflow: hidden !important;
+        /* Force no scrollbars */
+        padding: 0 !important;
+        /* Remove internal padding so our header stretches */
+    }
+
+    .mdc-dialog__content {
+        padding: 0 !important;
+        /* Remove default padding */
+        overflow: hidden !important;
+    }
+}
+
+/* Header Section */
+.dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: $gradient-pink;
+    padding: 20px 24px;
+    color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    h2 {
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 20px;
+    }
+
+    .close-btn {
+        color: white;
+    }
+}
+
+/* Content Section */
+.dialog-content {
+    padding: 24px 30px !important;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    .subtitle {
+        color: #777;
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    .full-width {
+        width: 100% !important;
+    }
+}
+
+/* Footer Section */
+.dialog-footer {
+    padding: 16px 24px;
+    border-top: 1px solid #eee;
+    background: #fafafa;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Buttons */
+.save-btn {
+    background: $primary-pink !important;
+    color: white !important;
+    border-radius: 20px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}

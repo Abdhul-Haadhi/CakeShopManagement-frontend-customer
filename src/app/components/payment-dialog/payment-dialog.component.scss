@@ -1,43 +1,210 @@
+// .card-payment-box {
+//     margin-top: 20px;
+//     padding: 32px 24px 16px;
+//     border: 1px solid #eef0f2;
+//     border-radius: 16px;
+//     background: #ffffff;
+//     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); /* Soft, modern shadow */
+//     max-width: 420px; /* Constrains the width so it doesn't stretch too far */
+
+//     .box-title {
+//         margin-top: 0;
+//         margin-bottom: 24px;
+//         font-size: 1.25rem;
+//         font-weight: 600;
+//         color: #1a1a1a;
+//     }
+
+//     .form-row {
+//         display: flex;
+//         width: 100%;
+//         /* Material fields have built-in bottom margin, no need to add much here */
+//     }
+
+//     .full-width {
+//         width: 100%;
+//     }
+
+//     /* Flexbox magic for the bottom row */
+//     .multi-col {
+//         display: flex;
+//         gap: 16px; /* Adds clean spacing between the month, year, and CVV */
+
+//         mat-form-field {
+//             flex: 1; /* Forces all three fields to share the row equally */
+//         }
+//     }
+
+//     .dialog-actions{
+//         display: flex;
+//         gap: 10px;
+//     }
+// }
+
+
+
+
+
+
+
+
+
 .card-payment-box {
-    margin-top: 20px;
-    padding: 32px 24px 16px;
-    border: 1px solid #eef0f2;
-    border-radius: 16px;
+    padding: 32px 28px;
     background: #ffffff;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); /* Soft, modern shadow */
-    max-width: 420px; /* Constrains the width so it doesn't stretch too far */
-    
-    .box-title {
-        margin-top: 0;
+    border-radius: 20px;
+    /* Deeper, softer shadow to look like a physical floating card */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05);
+    max-width: 460px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+
+    /* Subtle brand accent line at the very top */
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: linear-gradient(90deg, #ff4081, #ff79a1);
+    }
+
+    .box-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+
+        .box-title {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .secure-badge {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: #4caf50;
+            font-size: 13px;
+            font-weight: 600;
+            background: rgba(76, 175, 80, 0.1);
+            padding: 6px 12px;
+            border-radius: 20px;
+
+            mat-icon {
+                font-size: 16px;
+                width: 16px;
+                height: 16px;
+            }
+        }
+    }
+
+    /* Styles the trust logos to look clean and professional */
+    .accepted-cards {
+        display: flex;
+        align-items: center;
+        gap: 12px;
         margin-bottom: 24px;
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: #1a1a1a;
+        font-size: 13px;
+        color: #888;
+        font-weight: 500;
+
+        img {
+            height: 22px;
+            opacity: 0.6;
+            filter: grayscale(100%);
+            transition: 0.3s;
+
+            &:hover {
+                opacity: 1;
+                filter: grayscale(0%);
+            }
+        }
     }
 
     .form-row {
         display: flex;
         width: 100%;
-        /* Material fields have built-in bottom margin, no need to add much here */
     }
 
     .full-width {
         width: 100%;
     }
 
-    /* Flexbox magic for the bottom row */
     .multi-col {
         display: flex;
-        gap: 16px; /* Adds clean spacing between the month, year, and CVV */
-        
+        gap: 16px;
+
         mat-form-field {
-            flex: 1; /* Forces all three fields to share the row equally */
+            flex: 1;
         }
     }
 
-    .dialog-actions{
+    /* Icon Styling inside the inputs */
+    mat-icon[matPrefix] {
+        color: #9e9e9e;
+        margin-right: 8px;
+    }
+
+    .info-icon {
+        color: #9e9e9e;
+        font-size: 18px;
+        cursor: pointer;
+        transition: color 0.2s;
+
+        &:hover {
+            color: #ff4081;
+        }
+    }
+
+    /* Button Styling */
+    .dialog-actions {
         display: flex;
-        gap: 10px;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 10px;
+
+        .pay-btn {
+            background: #111111 !important;
+            /* A very dark, premium button */
+            color: white !important;
+            padding: 26px 0;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+            &:disabled {
+                background: #e0e0e0 !important;
+                color: #9e9e9e !important;
+                box-shadow: none;
+            }
+
+            mat-icon {
+                font-size: 20px;
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        .cancel-btn {
+            width: 100%;
+            padding: 8px 0;
+            color: #666;
+            font-weight: 500;
+
+            &:hover {
+                background: #f5f5f5;
+            }
+        }
     }
 }
-

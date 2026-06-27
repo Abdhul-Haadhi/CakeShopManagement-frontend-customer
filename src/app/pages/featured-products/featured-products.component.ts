@@ -78,7 +78,8 @@ export class FeaturedProductsComponent implements OnInit {
     const data = {
       productId: productId,
       quantity: 1,
-      sessionId: sessionId
+      sessionId: sessionId,
+      customerId: localStorage.getItem('customerId')
     };
 
     this.cartService.addToCart(data).subscribe({

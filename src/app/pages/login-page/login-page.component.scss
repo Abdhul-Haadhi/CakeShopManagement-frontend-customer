@@ -191,3 +191,105 @@
         box-shadow: none;
     }
 }
+
+.register-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25px;
+    gap: 5px;
+    /* Adds a nice little space between the text and the button */
+
+    p {
+        margin: 0;
+        /* Removes the default spacing that pushes the text out of alignment */
+        color: #777;
+        /* Matches your .subtitle color */
+        font-size: 15px;
+    }
+
+    button {
+        font-weight: 600;
+        font-size: 15px;
+        letter-spacing: 0.5px;
+
+        /* Optional: Adds a subtle hover effect to make the text pop */
+        transition: transform 0.2s ease;
+
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+}
+
+
+
+
+
+
+
+/* Simulated SMS Alert */
+.mock-sms-alert {
+    display: flex;
+    align-items: center;
+    background: #fdf6f8; /* Very soft pink background */
+    border-left: 4px solid #ff4081; /* Brand color accent */
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(255, 64, 129, 0.08);
+    gap: 15px;
+    
+    /* Entrance Animation */
+    animation: slideDown 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+
+    mat-icon {
+        color: #ff4081;
+        font-size: 30px;
+        height: 30px;
+        width: 30px;
+    }
+
+    .sms-content {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+
+        .sms-title {
+            font-size: 11px;
+            color: #777;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .sms-text {
+            font-size: 14px;
+            color: #333;
+
+            strong {
+                display: inline-block;
+                font-size: 18px;
+                color: #ff4081;
+                letter-spacing: 3px;
+                background: #ffe3ec;
+                padding: 3px 10px;
+                border-radius: 6px;
+                margin-top: 5px;
+            }
+        }
+    }
+}
+
+/* Slide-in Keyframes */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -165,7 +165,8 @@ export class ProductDetailsComponent implements OnInit {
       productId: this.product.productId,
       quantity: this.quantity,
       sessionId: localStorage.getItem('cartId'),
-      customizations: this.selectedCustomizations
+      customizations: this.selectedCustomizations,
+      customerId: localStorage.getItem('customerId')
     }
 
     this.cartService.addToCart(data).subscribe({
@@ -231,7 +232,7 @@ export class ProductDetailsComponent implements OnInit {
       next: (response: any) => {
         localStorage.setItem('buyNowCartId', response.cartId);
 
-        this.router.navigate(['/checkout']);
+        this.router.navigate(['/checkout-option']);
       }
     })
   }

@@ -19,50 +19,56 @@
             <h1 class="title">Login</h1>
             <p class="subtitle">Login to continue your sweet journey</p>
 
-            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-                <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>Email</mat-label>
-                    <input matInput type="email" formControlName="email">
-
-                    <mat-icon matSuffix>email</mat-icon>
-                </mat-form-field>
+            <form [formGroup]="loginForm" (ngSubmit)="sendOtp()">
 
                 <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>Password</mat-label>
-
-                    <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
-
-                    <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword">
-
-                        <mat-icon>
-                            {{ hidePassword ? 'visibility_off' : 'visibility' }}
-                        </mat-icon>
-
-                    </button>
+                    <mat-label>Phone Number</mat-label>
+                    <input matInput formControlName="phone">
+                    <mat-error class="text-danger" *ngIf="
+                        loginForm.get('phone')?.errors &&
+                        (loginForm.get('phone')?.errors)!['pattern']
+                    ">
+                        Phone number should be 10 digits
+                    </mat-error>
                 </mat-form-field>
 
-                <div class="forgot-password">
-                    <a href="#">Forgot Password?</a>
-                </div>
-
-                <button mat-raised-button color="primary" class="login-btn" type="submit">
-                    Login
+                <button mat-raised-button color="primary" class="login-btn" type="submit"
+                    [disabled]="isButtonDisabled || loginForm.invalid">
+                    {{ isButtonDisabled ? 'Resend OTP ' + timerDisplay : 'Send OTP' }}
                 </button>
             </form>
-
-            <div class="divider">
-                <span>OR</span>
+            <div class="register-link">
+                <p>Don't have an account?</p>
+                <button mat-button color="primary" routerLink="/register">
+                    Create Account
+                </button>
             </div>
 
-            <button mat-stroked-button class="google-btn">
-                <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" alt="google">
-                Continue with Google
-            </button>
+            <hr>
 
-            <div class="signup-link">
-                Don’t have an account?
-                <a routerLink="/signup">Create Account</a>
+            <div class="mock-sms-alert" *ngIf="otpSent && generatedOtp">
+                <mat-icon>textsms</mat-icon>
+                <div class="sms-content">
+                    <span class="sms-title">New Message Received</span>
+                    <span class="sms-text">
+                        Your Cake_La verification code is:
+                        <strong>{{ generatedOtp }}</strong>
+                    </span>
+                </div>
             </div>
+
+            <div *ngIf="otpSent">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Enter OTP</mat-label>
+
+                    <input matInput [(ngModel)]="enteredOtp">
+                </mat-form-field>
+
+                <button mat-raised-button color="accent" (click)="verifyOtp()">
+                    Verify OTP
+                </button>
+            </div>
+
         </div>
     </div>
 

@@ -19,7 +19,7 @@
 
   padding: 0 40px;
 
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
 .logo-section {
@@ -81,6 +81,7 @@
 
 .cart-btn {
   position: relative;
+  transition: 0.3s ease;
 
   .cart-badge {
     position: absolute;
@@ -101,6 +102,11 @@
 
     font-size: 11px;
   }
+
+  &:hover {
+    transform: scale(1.08);
+    box-shadow: 0 8px 18px rgba(255, 64, 129, 0.35);
+  }
 }
 
 .login-btn {
@@ -113,14 +119,121 @@
 }
 
 
+.profile-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+// .profile-btn mat-icon {
+//   font-size: 32px;
+//   width: 32px;
+//   height: 32px;
+// }
+
 /* =========================
    PAGE BACKGROUND
 ========================= */
 
 :host {
-    display: block;
-    // min-height: 100vh;
-    // background: #f5f7fb;
-    // padding: 25px;
-    font-family: Arial, Helvetica, sans-serif;
+  display: block;
+  // min-height: 100vh;
+  // background: #f5f7fb;
+  // padding: 25px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+.profile-menu {
+  position: relative;
+}
+
+.profile-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff4081, #ff80ab);
+  color: white;
+  transition: 0.3s ease;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+
+  mat-icon {
+    font-size: 30px;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &:hover {
+    transform: scale(1.08);
+    box-shadow: 0 8px 18px rgba(255, 64, 129, 0.35);
+  }
+}
+
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: 55px;
+  width: 220px;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.25s ease;
+  z-index: 999;
+}
+
+.dropdown-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  background: linear-gradient(135deg, #ff4081, #ff80ab);
+  color: white;
+  font-weight: 600;
+}
+
+.dropdown a,
+.dropdown button {
+  width: 100%;
+  padding: 14px 16px;
+  border: none;
+  background: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: #333;
+  cursor: pointer;
+  font-size: 15px;
+  transition: 0.25s ease;
+}
+
+.dropdown a:hover,
+.dropdown button:hover {
+  background: #fff0f6;
+  color: #ff4081;
+}
+
+.dropdown mat-icon {
+  font-size: 20px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
